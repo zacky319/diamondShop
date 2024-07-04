@@ -117,16 +117,16 @@ export const UserPage = () => {
   return (
     <>
       <Helmet>
-        <title>Manage User</title>
+        <title>Manage Diamonds</title>
       </Helmet>
       <div className={styles.userContainer}>
         <div className={styles.userTitle}>
-          <h1>Manage User</h1>
+          <h1>Manage Diamonds</h1>
         </div>
 
         <div className={styles.createBtn}>
           <Button type="primary" onClick={handleCreateUser}>
-            Create User
+            Add Diamonds
           </Button>
         </div>
 

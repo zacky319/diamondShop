@@ -1,105 +1,123 @@
 .loginPageContainer {
-	display: flex;
-	height: 100vh;
+    display: flex;
+    height: 100vh;
+    background-color: #000; /* Set the background to black */
+    color: #fff; /* Set the text color to white */
 }
 
 .leftSide {
-	flex: 1;
-	background-color: #f2f2f2;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+    flex: 1;
+    background-color: #080808;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff; /* Set the text color to white */
 }
 
 .rightSide {
-	flex: 1;
+    flex: 1;
+    background: url('../../assets/images/background.png') center center/cover no-repeat; /* Adjust the path to your image */
 }
 
 .loginHeader h1 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
+    color: #e2e2e2; /* This can remain the same if you want a slight contrast */
 }
 
 .loginForm {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .formItem {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 10px;
+    display: flex;
+    flex-direction: column; /* Stack label above the input */
+    justify-content: space-between;
+    align-items: flex-start; /* Align labels to the left */
+    margin-bottom: 10px;
+    color: #fff; /* Set the text color to white */
+	
 }
-
-.inputField1 {
-	margin-left: 20px;
+label {
+    color: #fff !important; /* Ensure labels are white */
 }
-
 .inputField {
-	width: 450px;
-	height: 40px;
-	margin-bottom: 10px;
-	border: 1px solid #3498db;
-	border-radius: 5px;
-	padding: 0 10px;
+    width: 450px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: 1px solid #f0f0f0;
+    border-radius: 5px;
+    padding: 0 10px;
+    background-color: #333; /* Darker background for input fields */
+    color: #fff; /* Set the text color to white */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.inputField:focus, 
+.inputField:hover {
+    background-color: #fff; /* Background turns white on focus */
+    color: #000; /* Font turns black on focus */
+    border-color: #ccc; /* Change border color on focus */
 }
 
 .checkboxForgot {
-	display: flex;
-	align-items: center;
-
-	width: 450px;
-	margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    width: 450px;
+    margin-bottom: 10px;
+    color: #fff; /* Set the text color to white */
 }
 
 .checkboxForgot label {
-	margin-left: 5px;
+    margin-left: 5px;
+    color: #e2e2e2; /* Slight contrast */
 }
 
 .formItemsContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .forgotPassword {
-	color: #3498db;
+    color: #ebebeb; /* Slight contrast */
 }
 
 .loginButton {
-	min-width: 450px;
-	height: 40px;
-	background-color: #125394;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s;
-	font-weight: bold;
-	font-size: larger;
-	text-align: center;
-	margin: 0 auto;
+    min-width: 450px;
+    height: 40px;
+    background-color: #e2e2e2;
+    color: #000; /* Black text on the button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    font-size: larger;
+    text-align: center;
+    margin: 0 auto;
 }
 
 .loginButton:hover,
 .loginButton:focus {
-	background-color: #40a9ff;
-	border-color: #40a9ff;
+    background-color: #ccfff2;
+    border-color: #f1f1f1;
 }
 
 .loginInput {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .formActions {
-	display: flex;
-	justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
+
 .centerButton {
-	display: flex;
-	justify-content: center;
+    display: flex;
+    justify-content: center;
 }

@@ -1,149 +1,97 @@
 // DefaultLayout.jsx
 
-import React, {useState} from 'react';
-import {Layout, Menu} from 'antd';
-import {useSelector} from 'react-redux';
-import {Link, useLocation, useNavigate} from 'react-router-dom';
-import {imageExporter} from '../assets/images';
-import {getUserSelector} from '../redux/selectors';
-import {Header} from '../components/Header/Header';
+import React, { useState } from 'react';
+import { Layout, Menu } from 'antd';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { imageExporter } from '../assets/images';
+import { DashboardOutlined, DisconnectOutlined, UserOutlined,RubyOutlined } from '@ant-design/icons';
 import TopNavbar from '../components/TopNavBar/TopNavBar'; // Import the TopNavbar component
-import {
-	DashboardOutlined,
-	DisconnectOutlined,
-	EditOutlined,
-	FileTextOutlined,
-	FundViewOutlined,
-	TransactionOutlined,
-	UserOutlined,
-	GiftOutlined,
-	HomeOutlined,
-} from '@ant-design/icons';
+import { Header } from '../components/Header/Header';
 
-const {Footer, Sider, Content} = Layout;
+const { Footer, Sider, Content } = Layout;
 
-function getItem(label, key, icon, children) {
-	return {
-		key,
-		icon,
-		children,
-		label,
-	};
+function getItem(label, key, icon) {
+  return {
+    key,
+    icon,
+    label,
+  };
 }
 
-export const DefaultLayout = ({children}) => {
-	const navigate = useNavigate();
-	const [collapsed, setCollapsed] = useState(false);
-	const location = useLocation();
-	const [selectMenu, setSelectMenu] = useState(location.pathname);
+export const DefaultLayout = ({ children }) => {
+  const navigate = useNavigate();
+  const [collapsed, setCollapsed] = useState(false);
+  const location = useLocation();
+  const [selectedMenu, setSelectedMenu] = useState(location.pathname);
 
-	// Pages which will show sidebar menu
-	const pageLocation = [
-		'/dashboard',
-		'/users',
-		'/matches',
-		'/reports',
-		'/ads',
-		'/posts',
-		'/transactions',
-		'/stadiums',
-		'/vouchers',
+  // Pages which will show sidebar menu
+  const pageLocations = ['/users', '/matches']; // Add more pages here as needed
 
-		// add more pages here
-	];
+  // Sidebar menu items
+  const menuItems = [
+    getItem('Manage Diamonds', '/users', <RubyOutlined />),
+    getItem('Manage Users', '/matches', <UserOutlined />),
+    // Add more items here
+  ];
 
-	// Menu sidebar items
-	const items = [
-		getItem('Dashboard', '/dashboard', <DashboardOutlined />),
-		getItem('Manage User', '/users', <UserOutlined />),
-		getItem('Manage Match', '/matches', <DisconnectOutlined />),
-		getItem('Manage Report', '/reports', <FileTextOutlined />),
-		getItem('Manage Advertisement', '/ads', <FundViewOutlined />),
-		getItem('Manage Post', '/posts', <EditOutlined />),
-		getItem('Manage Transaction', '/transactions', <TransactionOutlined />),
-		getItem('Manage Stadium', '/stadiums', <HomeOutlined />),
-		getItem('Manage Voucher', '/vouchers', <GiftOutlined />),
+  // Handle menu item click
+  const handleClickMenuItem = (e) => {
+    setSelectedMenu(e.key);
+    navigate(e.key);
+  };
 
-		// add more items here
-	];
+  // Determine if header and footer should be displayed
+  const isLoginPage = location.pathname === '/login';
+  const isSignUpPage = location.pathname === '/signup';
+  const showHeaderFooter = !(isLoginPage || isSignUpPage);
 
-	// handle save menu and redirect
-	const handleClickMenuItem = (e) => {
-		console.log('click ', e.key);
-		setSelectMenu(e.key);
-		navigate(e.key);
-	};
+  return (
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        theme="dark" // Set theme to dark
+        style={{
+          display: pageLocations.includes(location.pathname) ? 'block' : 'none',
 
-	// Conditionally render header, top navbar, and footer based on location
-	const isLoginPage = location.pathname === '/login';
-	const isSignUpPage = location.pathname === '/signup';
-	const showHeaderFooter = !(isLoginPage || isSignUpPage);
-
-	return (
-		<Layout style={{minHeight: '100vh'}}>
-			<Layout>
-				<Sider
-					collapsed={collapsed}
-					onCollapse={(value) => setCollapsed(value)}
-					theme="light"
-					style={{
-						display: pageLocation.includes(location.pathname) ? 'block' : 'none',
-					}}
-				>
-					<Link to="/dashboard" style={{width: '200px', height: '100px'}}>
-						<img
-							style={{
-								width: '100%',
-								maxHeight: '100%',
-								objectPosition: 'center',
-								objectFit: 'cover',
-							}}
-							src={imageExporter.logo}
-							alt="logo"
-						></img>
-					</Link>
-					<Menu
-						onClick={handleClickMenuItem}
-						theme="light"
-						defaultSelectedKeys={['1']}
-						selectedKeys={[selectMenu]}
-						mode="inline"
-						items={items}
-					/>
-				</Sider>
-				<Layout
-					style={{
-						backgroundColor: '#eaeaea',
-						display: 'flex',
-						flexDirection: 'column',
-					}}
-				>
-					{showHeaderFooter && <TopNavbar />} {/* Conditionally render TopNavbar */}
-					{showHeaderFooter && <Header />} {/* Conditionally render Header */}
-					<Content
-						style={{
-							margin: '16px',
-							overflow: 'hidden',
-							backgroundColor: '#ffffff',
-						}}
-					>
-						<div
-							style={{
-								minHeight: 360,
-							}}
-						>
-							{children}
-						</div>
-					</Content>
-					{showHeaderFooter && (
-						<Footer style={{textAlign: 'center'}}>
-							SportLinker Admin Page ©{new Date().getFullYear()} Created by
-							SportLinker Team
-						</Footer>
-					)}{' '}
-					{/* Conditionally render Footer */}
-				</Layout>
-			</Layout>
-		</Layout>
-	);
+        }}
+      >
+        <div className="logo" style={{ height: 'fit-content' }}>
+          <Link to="/dashboard">
+            <img
+              src={imageExporter.logo}
+              alt="logo"
+              style={{ width: '100%', height: '100%', objectFit: 'fill' }}
+            />
+          </Link>
+        </div>
+        <Menu
+          theme="dark" // Set theme to dark
+          mode="inline"
+          selectedKeys={[selectedMenu]}
+          onClick={handleClickMenuItem}
+        >
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon}>
+              {item.label}
+            </Menu.Item>
+          ))}
+        </Menu>
+      </Sider>
+      <Layout>
+        {showHeaderFooter && <TopNavbar />} {/* Conditionally render TopNavbar */}
+        <Content style={{ margin: '16px', overflow: 'hidden', backgroundColor: '#ffffff' }}>
+          <div style={{ minHeight: 360 }}>{children}</div>
+        </Content>
+        {showHeaderFooter && (
+          <Footer style={{ textAlign: 'center', backgroundColor: '#445566', color: '#fff', height:'10px'}}>
+            Kidicumo Manager Page ©{new Date().getFullYear()} Created by Kidicumo Team
+          </Footer>
+        )}
+      </Layout>
+    </Layout>
+  );
 };
+
+export default DefaultLayout;

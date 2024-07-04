@@ -1,5 +1,5 @@
 import React from 'react';
-import {DefaultLayout} from '../layouts/DefaultLayout';
+import { DefaultLayout } from '../layouts/DefaultLayout';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import DashboardPage from '../pages/DashboardPage/DashboardPage';
 import {NotFoundPage} from '../pages/NotFoundPage/NotFoundPage';
@@ -20,7 +20,7 @@ export const AppRouters = () => {
 	return (
 		<DefaultLayout>
 			<Routes>
-				<Route path="/" element={<Navigate to="/dashboard" />} />
+				<Route path="/" element={<Navigate to="/users" />} />
 				<Route
 					path="/dashboard"
 					element={

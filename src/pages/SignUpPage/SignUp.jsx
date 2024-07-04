@@ -1,8 +1,8 @@
 import React from 'react';
-import {Form, Input, Button, Checkbox} from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 import styles from './SignUp.module.css';
-import {imageExporter} from '../../assets/images';
-import {Helmet} from 'react-helmet';
+import { imageExporter } from '../../assets/images';
+import { Helmet } from 'react-helmet';
 
 const SignUpPage = () => {
 	const onFinish = (values) => {
@@ -16,16 +16,6 @@ const SignUpPage = () => {
 			</Helmet>
 			<div className={styles.signUpPageContainer}>
 				<div className={styles.leftSide}>
-					<img
-						style={{
-							width: '100%',
-							maxHeight: '100%',
-							objectPosition: 'center',
-							objectFit: 'cover',
-						}}
-						src={imageExporter.background}
-						alt="background"
-					/>
 				</div>
 				<div className={styles.rightSide}>
 					<div className={styles.signUpHeader}>
@@ -36,7 +26,7 @@ const SignUpPage = () => {
 							<Form.Item
 								label="First Name"
 								name="firstName"
-								rules={[{required: true, message: 'Please input your first name!'}]}
+								rules={[{ required: true, message: 'Please input your first name!' }]}
 							>
 								<Input className={styles.inputForm} />
 							</Form.Item>
@@ -44,7 +34,7 @@ const SignUpPage = () => {
 							<Form.Item
 								label="Last Name"
 								name="lastName"
-								rules={[{required: true, message: 'Please input your last name!'}]}
+								rules={[{ required: true, message: 'Please input your last name!' }]}
 							>
 								<Input className={styles.inputForm} />
 							</Form.Item>
@@ -73,8 +63,7 @@ const SignUpPage = () => {
 									},
 									{
 										pattern: /^0\d{9}$/,
-										message:
-											'Phone number must start with 0 and be 10 digits long!',
+										message: 'Phone number must start with 0 and be 10 digits long!',
 									},
 								]}
 							>
@@ -84,7 +73,7 @@ const SignUpPage = () => {
 							<Form.Item
 								label="Password"
 								name="password"
-								rules={[{required: true, message: 'Please input your password!'}]}
+								rules={[{ required: true, message: 'Please input your password!' }]}
 							>
 								<Input.Password className={styles.inputForm} />
 							</Form.Item>
@@ -94,15 +83,13 @@ const SignUpPage = () => {
 								name="confirmPassword"
 								dependencies={['password']}
 								rules={[
-									{required: true, message: 'Please confirm your password!'},
-									({getFieldValue}) => ({
+									{ required: true, message: 'Please confirm your password!' },
+									({ getFieldValue }) => ({
 										validator(_, value) {
 											if (!value || getFieldValue('password') === value) {
 												return Promise.resolve();
 											}
-											return Promise.reject(
-												new Error('The two passwords do not match!')
-											);
+											return Promise.reject(new Error('The two passwords do not match!'));
 										},
 									}),
 								]}
@@ -119,9 +106,7 @@ const SignUpPage = () => {
 											if (value) {
 												return Promise.resolve();
 											}
-											return Promise.reject(
-												new Error('Please agree to the terms of use!')
-											);
+											return Promise.reject(new Error('Please agree to the terms of use!'));
 										},
 									},
 								]}

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
-import { imageExporter } from '../../assets/images';
-import styles from './Login.module.css';
 import { Helmet } from 'react-helmet';
 import { useDispatch } from 'react-redux';
 import { handleLogin } from '../../redux/slices/userLoginSlice';
 import { useNavigate } from 'react-router-dom';
+import styles from './Login.module.css';
 
 const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -124,18 +123,7 @@ const LoginPage = () => {
                         </Form>
                     </div>
                 </div>
-                <div className={styles.rightSide}>
-                    <img
-                        style={{
-                            width: '100%',
-                            maxHeight: '100%',
-                            objectPosition: 'center',
-                            objectFit: 'cover',
-                        }}
-                        src={imageExporter.background}
-                        alt="background"
-                    ></img>
-                </div>
+                <div className={styles.rightSide}></div>
             </div>
         </>
     );
