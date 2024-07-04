@@ -1,0 +1,38 @@
+.searchFilterContainer {
+  display: flex;
+  align-items: center;
+  padding:0 1rem;
+}
+
+.searchInput {
+  margin-right: 10px;
+  width: 300px;
+}
+
+.filterButton {
+  margin-right: 10px;
+}
+
+.filterModal {
+  width: 400px;
+}
+
+.formFields {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -8px; /* Add negative margin to counteract Space padding */
+}
+
+.fieldContainer {
+  flex: 1 1 calc(50% - 16px); /* Adjust field container width for two columns */
+  margin: 8px; /* Add margin to Space component */
+}
+
+.applyButton {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.buttonContainer {
+  text-align: right;
+}
