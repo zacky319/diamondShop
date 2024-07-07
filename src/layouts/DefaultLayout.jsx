@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { imageExporter } from '../assets/images';
-import { DashboardOutlined, DisconnectOutlined, UserOutlined,RubyOutlined } from '@ant-design/icons';
+import { DashboardOutlined, DisconnectOutlined, UserOutlined, RubyOutlined } from '@ant-design/icons';
 import TopNavbar from '../components/TopNavBar/TopNavBar'; // Import the TopNavbar component
-import { Header } from '../components/Header/Header';
 
 const { Footer, Sider, Content } = Layout;
 
@@ -25,11 +24,11 @@ export const DefaultLayout = ({ children }) => {
   const [selectedMenu, setSelectedMenu] = useState(location.pathname);
 
   // Pages which will show sidebar menu
-  const pageLocations = ['/users', '/matches']; // Add more pages here as needed
+  const pageLocations = ['/diamonds', '/matches']; // Add more pages here as needed
 
   // Sidebar menu items
   const menuItems = [
-    getItem('Manage Diamonds', '/users', <RubyOutlined />),
+    getItem('Manage Diamonds', '/diamonds', <RubyOutlined />),
     getItem('Manage Users', '/matches', <UserOutlined />),
     // Add more items here
   ];
@@ -54,11 +53,10 @@ export const DefaultLayout = ({ children }) => {
         theme="dark" // Set theme to dark
         style={{
           display: pageLocations.includes(location.pathname) ? 'block' : 'none',
-
         }}
       >
         <div className="logo" style={{ height: 'fit-content' }}>
-          <Link to="/dashboard">
+          <Link to="/users">
             <img
               src={imageExporter.logo}
               alt="logo"
@@ -82,10 +80,10 @@ export const DefaultLayout = ({ children }) => {
       <Layout>
         {showHeaderFooter && <TopNavbar />} {/* Conditionally render TopNavbar */}
         <Content style={{ margin: '16px', overflow: 'hidden', backgroundColor: '#ffffff' }}>
-          <div style={{ minHeight: 360 }}>{children}</div>
+          <div style={{ minHeight: 360, height: '100%' }}>{children}</div>
         </Content>
         {showHeaderFooter && (
-          <Footer style={{ textAlign: 'center', backgroundColor: '#445566', color: '#fff', height:'10px'}}>
+          <Footer style={{ textAlign: 'center', alignContent:'center', backgroundColor: '#445566', color: '#fff', height: ' 10px'}}>
             Kidicumo Manager Page ©{new Date().getFullYear()} Created by Kidicumo Team
           </Footer>
         )}
