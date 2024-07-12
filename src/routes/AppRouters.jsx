@@ -4,17 +4,13 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import DashboardPage from '../pages/DashboardPage/DashboardPage';
 import {NotFoundPage} from '../pages/NotFoundPage/NotFoundPage';
 import PermissionDeniedPage from '../pages/PermissionDeniedPage/PermissionDeniedPage';
-import {DiamondsPage} from '../pages/DiamondsPage/DiamondsPage';
+import DiamondsPage from '../pages/DiamondsPage/DiamondsPage';
 import LoginPage from '../pages/LoginPage/LoginPage';
 import SignUpPage from '../pages/SignUpPage/SignUp';
-import {UserPage} from '../pages/EventPage/UserPage';
-import {ReportPage} from '../pages/ReportPage/ReportPage';
-import AdPage from '../pages/AdPage/AdPage';
-import PostPage from '../pages/PostPage/PostPage';
-import TransactionPage from '../pages/TransactionPage/TransactionPage';
-import VoucherPage from '../pages/VoucherPage/VoucherPage';
+import MaterialPage from '../pages/MaterialPage/MaterialPage';
 import PrivateRoute from './PrivateRoute';
-import { StadiumPage } from '../pages/StadiumPage/StadiumPage';
+import ShellPage from '../pages/ShellPage/ShellPage';
+import ProductPage from '../pages/ProductPage/ProductPage';
 
 export const AppRouters = () => {
 	return (
@@ -22,80 +18,39 @@ export const AppRouters = () => {
 			<Routes>
 				<Route path="/" element={<Navigate to="/diamonds" />} />
 				<Route
-					path="/dashboard"
+					path="/diamonds"
 					element={
-						<PrivateRoute>
-							<DashboardPage />
-						</PrivateRoute>
+						// <PrivateRoute>
+							<DiamondsPage />
+						// </PrivateRoute>
 					}
 				/>
 				<Route
-					path="/diamonds"
+					path="/shells"
 					element={
-						<PrivateRoute>
-							<DiamondsPage />
-						</PrivateRoute>
+						// <PrivateRoute>
+							<ShellPage />
+						// </PrivateRoute>
 					}
 				/>
 				<Route path="/login" element={<LoginPage />} />
 				<Route path="/signup" element={<SignUpPage />} />
 				<Route
-					path="/matches"
+					path="/materials"
 					element={
-						<PrivateRoute>
-							<UserPage />
-						</PrivateRoute>
+						// <PrivateRoute>
+							<MaterialPage />
+						// </PrivateRoute>
 					}
 				/>
 				<Route
-					path="/ads"
+					path="/products"
 					element={
-						<PrivateRoute>
-							<AdPage />
-						</PrivateRoute>
+						// <PrivateRoute>
+							<ProductPage />
+						// </PrivateRoute>
 					}
 				/>
-				<Route
-					path="/reports"
-					element={
-						<PrivateRoute>
-							<ReportPage />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path="/posts"
-					element={
-						<PrivateRoute>
-							<PostPage />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path="/transactions"
-					element={
-						<PrivateRoute>
-							<TransactionPage />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path="/stadiums"
-					element={
-						<PrivateRoute>
-							<StadiumPage />
-						</PrivateRoute>
-					}
-				/>
-				<Route
-					path="/vouchers"
-					element={
-						<PrivateRoute>
-							<VoucherPage />
-						</PrivateRoute>
-					}
-				/>
-
 				<Route path="/permission-denied" element={<PermissionDeniedPage />} />
 				<Route path="*" element={<NotFoundPage />} />
 			</Routes>

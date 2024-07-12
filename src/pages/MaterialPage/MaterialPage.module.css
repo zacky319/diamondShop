@@ -1,0 +1,48 @@
+/* MaterialPage.module.css */
+
+.container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.table {
+  margin-bottom: 20px;
+}
+
+.detailContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.detailLeft,
+.detailRight {
+  flex: 1;
+  padding: 10px;
+}
+
+.detailSection {
+  margin-bottom: 16px;
+}
+
+.actionColumn {
+  text-align: center;
+}
+
+.addButton {
+  margin-bottom: 10px; /* Example margin for the add button */
+}
+.ButtonContainer{
+	justify-content: flex-end;
+	width: 100%;
+	display: flex;
+	padding: 1rem
+  }

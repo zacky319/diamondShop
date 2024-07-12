@@ -4,13 +4,11 @@ import { Avatar, Button, Popover, message, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styles from './TopNavBar.module.css'; // Import CSS module file for styling
 import profileImage from './profileImage.jpg'; // Import a sample profile image for illustration
-import userLoginSlice from '../../redux/slices/userLoginSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/slices/userLoginSlice'; // Import the logout action from userLoginSlice
 
 const TopNavbar = () => {
-  const userLocal = JSON.parse(localStorage.getItem('user'));
-  const user = userLocal?.user;
-
+  const user = useSelector(state => state.userLogin.user); // Access user state from Redux store
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -24,25 +22,8 @@ const TopNavbar = () => {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem('user');
-    dispatch(
-      userLoginSlice.actions.logout({
-        userId: '',
-        userPhone: '',
-        name: '',
-        email: '',
-        password: '',
-        bio: '',
-        avatar_url: '',
-        gender: '',
-        date_of_birth: '',
-        role: '',
-        accessToken: '',
-        refreshToken: '',
-        last_active_time: null,
-        status: '',
-      })
-    );
+    dispatch(logout()); // Dispatch logout action to clear user state
+    localStorage.removeItem('user'); // Remove user from local storage if needed
     message.success('Logout successful!');
     navigate('/login');
   };

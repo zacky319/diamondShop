@@ -1,60 +1,56 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {api} from '../../services/api';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { api } from '../../services/api';
 
-export const handleLogin = createAsyncThunk(
-	'userLoginSlice/handleLogin',
-	async ({phone, password}) => {
-		console.log(phone, password);
-		try {
-			const data = await api.post(`/authen/login?type=phone`, {
-				phone: phone,
-				password: password,
-			});
-			return data.data;
-		} catch (error) {
-			console.log(error);
-		}
-	}
-);
+const API = 'http://localhost:8000/api';
 
-export const userLoginSlice = createSlice({
-	name: 'userLoginSlice',
-	initialState: {
-		userInfo: {
-			userId: '',
-			userPhone: '',
-			name: '',
-			email: '',
-			password: '',
-			bio: '',
-			avatar_url: '',
-			gender: '',
-			date_of_birth: '',
-			role: '',
-			accessToken: '',
-			refreshToken: '',
-			last_active_time: null,
-			status: '',
-		},
-	},
-	reducers: {
-		//handle save state internal
-		setUser: (state, action) => {
-			state.userInfo = action.payload;
-			console.log('setUser', action.payload);
-		},
-		logout: (state, action) => {
-			state.userInfo = action.payload;
-			console.log('logout', action.payload);
-		},
-	},
-	extraReducers: (builder) => {
-		builder.addCase(handleLogin.fulfilled, (state, action) => {
-			state.userInfo = action.payload.metadata;
-
-			localStorage.setItem('user', JSON.stringify(action.payload.metadata));
-		});
-	},
+export const loginUser = createAsyncThunk('users/login', async ({ email, password }, { rejectWithValue }) => {
+  try {
+    const response = await axios.post(`${API}/users/login`, { email, password });
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.data) {
+      return rejectWithValue(error.response.data);
+    }
+    return rejectWithValue(error.message);
+  }
 });
 
-export default userLoginSlice;
+const userLoginSlice = createSlice({
+  name: 'userLogin',
+  initialState: {
+    user: null,
+    token: null,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.loading = false;
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.token = action.payload.token;
+        // You might want to decode the token to get user info
+        // state.user = decodeToken(action.payload.token);
+        state.user = action.payload.user; // Assuming your backend returns user info along with the token
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+export const { logout } = userLoginSlice.actions;
+export default userLoginSlice.reducer;

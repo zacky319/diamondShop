@@ -1,11 +1,15 @@
-// DefaultLayout.jsx
-
 import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { imageExporter } from '../assets/images';
-import { DashboardOutlined, DisconnectOutlined, UserOutlined, RubyOutlined } from '@ant-design/icons';
-import TopNavbar from '../components/TopNavBar/TopNavBar'; // Import the TopNavbar component
+import {
+  RubyOutlined,
+  GoldOutlined,
+  ToolOutlined,
+  SafetyCertificateOutlined,
+  ShopOutlined,
+} from '@ant-design/icons';
+import TopNavbar from '../components/TopNavBar/TopNavBar';
 
 const { Footer, Sider, Content } = Layout;
 
@@ -23,23 +27,20 @@ export const DefaultLayout = ({ children }) => {
   const location = useLocation();
   const [selectedMenu, setSelectedMenu] = useState(location.pathname);
 
-  // Pages which will show sidebar menu
-  const pageLocations = ['/diamonds', '/matches']; // Add more pages here as needed
+  const pageLocations = ['/diamonds', '/materials', '/shells', '/products'];
 
-  // Sidebar menu items
   const menuItems = [
     getItem('Manage Diamonds', '/diamonds', <RubyOutlined />),
-    getItem('Manage Users', '/matches', <UserOutlined />),
-    // Add more items here
+    getItem('Manage Materials', '/materials', <GoldOutlined />),
+    getItem('Manage Shells', '/shells', <ToolOutlined />),
+    getItem('Manage Products', '/products', <ShopOutlined />),
   ];
 
-  // Handle menu item click
   const handleClickMenuItem = (e) => {
     setSelectedMenu(e.key);
     navigate(e.key);
   };
 
-  // Determine if header and footer should be displayed
   const isLoginPage = location.pathname === '/login';
   const isSignUpPage = location.pathname === '/signup';
   const showHeaderFooter = !(isLoginPage || isSignUpPage);
@@ -50,7 +51,7 @@ export const DefaultLayout = ({ children }) => {
         collapsible
         collapsed={collapsed}
         onCollapse={setCollapsed}
-        theme="dark" // Set theme to dark
+        theme="dark"
         style={{
           display: pageLocations.includes(location.pathname) ? 'block' : 'none',
         }}
@@ -65,7 +66,7 @@ export const DefaultLayout = ({ children }) => {
           </Link>
         </div>
         <Menu
-          theme="dark" // Set theme to dark
+          theme="dark"
           mode="inline"
           selectedKeys={[selectedMenu]}
           onClick={handleClickMenuItem}
@@ -78,12 +79,20 @@ export const DefaultLayout = ({ children }) => {
         </Menu>
       </Sider>
       <Layout>
-        {showHeaderFooter && <TopNavbar />} {/* Conditionally render TopNavbar */}
+        {showHeaderFooter && <TopNavbar />}
         <Content style={{ margin: '16px', overflow: 'hidden', backgroundColor: '#ffffff' }}>
           <div style={{ minHeight: 360, height: '100%' }}>{children}</div>
         </Content>
         {showHeaderFooter && (
-          <Footer style={{ textAlign: 'center', alignContent:'center', backgroundColor: '#445566', color: '#fff', height: ' 10px'}}>
+          <Footer
+            style={{
+              textAlign: 'center',
+              alignContent: 'center',
+              backgroundColor: '#445566',
+              color: '#fff',
+              height: ' 10px',
+            }}
+          >
             Kidicumo Manager Page ©{new Date().getFullYear()} Created by Kidicumo Team
           </Footer>
         )}

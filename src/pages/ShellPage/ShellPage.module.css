@@ -1,0 +1,47 @@
+.container {
+  width: 100%;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.table {
+  margin-bottom: 20px;
+}
+
+.detailContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailLeft, .detailRight {
+  flex: 1;
+}
+
+.detailSection {
+  margin-bottom: 16px;
+}
+
+.actionColumn {
+  text-align: center;
+}
+.filterRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; /* Adjust as needed */
+}
+
+.input {
+  width: 200px; /* Example width, adjust as needed */
+  margin-right: 10px; /* Adjust spacing */
+}
+
+.clearButton {
+  margin-right: 10px; /* Adjust spacing */
+}

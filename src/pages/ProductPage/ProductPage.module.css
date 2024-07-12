@@ -1,0 +1,145 @@
+/* ProductPage.module.css */
+
+.container {
+  padding: 20px;
+}
+
+.title {
+  font-size    : 24px;
+  font-weight  : bold;
+  margin-bottom: 20px;
+}
+
+.buttonRow {
+  margin-bottom: 20px;
+}
+
+.table {
+  width: 100%;
+}
+
+.detailContainer {
+  display    : flex;
+  align-items: flex-start;
+}
+
+.detailLeft {
+  flex   : 1;
+  padding: 20px;
+}
+
+.detailRight {
+  flex   : 1;
+  padding: 20px;
+}
+
+.productImage {
+  width        : 150px;
+  height       : auto;
+  margin-bottom: 10px;
+}
+
+.formItem {
+  display       : flex;
+  flex-direction: column;
+  margin-bottom : 10px;
+}
+
+.formItem .label {
+  color        : #000;
+  font-weight  : bold;
+  margin-bottom: 5px;
+}
+
+.modalContent {
+  max-width: 600px;
+}
+
+.modalFooter {
+  display        : flex;
+  justify-content: flex-end;
+  padding-top    : 20px;
+}
+
+.modalFooter .ant-btn {
+  margin-left: 8px;
+}
+
+/* Adjust specific modal styles */
+.ant-modal-title {
+  font-size  : 18px;
+  font-weight: bold;
+}
+
+.ant-modal-footer {
+  border-top: none;
+  padding   : 10px 24px;
+}
+
+/* Button styles */
+.ant-btn {
+  border-radius: 5px;
+}
+
+.ant-btn-primary {
+  background-color: #1890ff;
+  border-color    : #1890ff;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background-color: #40a9ff;
+  border-color    : #40a9ff;
+}
+
+.ant-btn-link {
+  color: #1890ff;
+}
+
+.ant-btn-link:hover,
+.ant-btn-link:focus {
+  color: #40a9ff;
+}
+
+/* Form styles */
+.ant-form-item-label {
+  font-weight: bold;
+}
+
+.ant-input-number {
+  width: 100%;
+}
+
+.ant-select {
+  width: 100%;
+}
+
+.ant-select-selection-search {
+  border-radius: 5px;
+}
+
+.ant-select-arrow {
+  color: #1890ff;
+}
+
+.ant-input,
+.ant-select-selection-search-input {
+  border-radius: 5px;
+}
+
+.ant-input:hover,
+.ant-select-selection-search-input:hover,
+.ant-input:focus,
+.ant-select-selection-search-input:focus {
+  border-color: #1890ff;
+}
+
+.deleteButton :hover,
+.actionButtons :hover {
+  background-color: red;
+  color           : antiquewhite;
+}
+
+.actionButtons{
+  
+}
