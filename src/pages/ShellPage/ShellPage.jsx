@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Modal, Button, Input, message, Form} from 'antd';
 import axios from 'axios';
-import {fetchShells, deleteShell} from '../../redux/slices/shellSlice'; // Assuming you have defined fetchShells and deleteShell actions
 import styles from './ShellPage.module.css'; // Import your module.css for styling
 
 const ShellPage = () => {

@@ -16,7 +16,7 @@ export const AppRouters = () => {
 	return (
 		<DefaultLayout>
 			<Routes>
-				<Route path="/" element={<Navigate to="/diamonds" />} />
+				<Route path="/" element={<Navigate to="/products" />} />
 				<Route
 					path="/diamonds"
 					element={

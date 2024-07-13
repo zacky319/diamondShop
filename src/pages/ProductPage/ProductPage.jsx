@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Table, Popconfirm, Modal, Button, message, Form, Input, Select, Typography} from 'antd';
+import {EyeOutlined, EditOutlined, DeleteOutlined} from '@ant-design/icons';
 import axios from 'axios';
 import styles from './ProductPage.module.css'; // Import your module.css for styling
 
@@ -38,7 +39,17 @@ const ProductPage = () => {
 		fetchMaterials();
 		fetchShells();
 	}, []);
-
+	useEffect(() => {
+		let interval;
+		if (visible && selectedProduct && selectedProduct.image.length > 1) {
+			interval = setInterval(() => {
+				setCurrentImageIndex((prevIndex) => (prevIndex + 1) % selectedProduct.image.length);
+			}, 2000); // Change image every 2 seconds
+		}
+		return () => {
+			clearInterval(interval);
+		};
+	}, [visible, selectedProduct]);
 	const fetchProductsFromAPI = () => {
 		axios
 			.get('http://localhost:8000/api/products/')
@@ -85,15 +96,15 @@ const ProductPage = () => {
 			dataIndex: 'productName',
 			key: 'productName',
 			render: (productName, record) => (
-				<div>
+				<div className={styles.productName}>
 					{record.image.length > 0 && (
 						<img
 							src={record.image[0]} // Display the first image URL in the array
 							alt={productName}
-							style={{width: '50px', height: 'auto'}}
+							className={styles.productImageThumbnail}
 						/>
 					)}
-					<span style={{marginLeft: '10px'}}>{productName}</span>
+					<span className={styles.productNameText}>{productName}</span>
 				</div>
 			),
 		},
@@ -121,25 +132,28 @@ const ProductPage = () => {
 			title: 'Price',
 			dataIndex: 'price',
 			key: 'price',
-			render: (price) => `$${price}`,
+			render: (price) => `$${price.toFixed(2)}`,
 		},
 		{
 			title: 'Action',
 			key: 'action',
 			render: (text, record) => (
-				<div>
-					<Button type="link" onClick={() => showDetailModal(record)}>
-						View Details
-					</Button>
-					<Button type="link" onClick={() => showUpdateModal(record)}>
-						Update
-					</Button>
+				<div className={styles.actionButtons}>
+					<Button
+						type="link"
+						icon={<EyeOutlined />}
+						onClick={() => showDetailModal(record)}
+					/>
+					<Button
+						type="link"
+						icon={<EditOutlined />}
+						onClick={() => showUpdateModal(record)}
+					/>
 				</div>
 			),
 		},
 	];
 	const handleDeleteConfirm = () => {
-		console.log('Deleting product...');
 		if (!selectedProduct) return;
 
 		axios
@@ -157,7 +171,6 @@ const ProductPage = () => {
 	};
 
 	const handleCancelDelete = () => {
-		console.log('Delete canceled.');
 		setConfirmDeleteVisible(false);
 	};
 	const showDetailModal = (record) => {
@@ -194,13 +207,7 @@ const ProductPage = () => {
 	const showUpdateModal = (record) => {
 		setSelectedProduct(record);
 		setUpdateFormData({
-			productName: record.productName,
-			diamondType: record.diamondId.type,
-			shellName: record.shellId.shellName,
-			category: record.shellId.category,
-			materialName: record.materialId.materialName,
-			price: record.price,
-			description: record.description,
+			quantity: record.quantity, // Add quantity field
 		});
 		setUpdateModalVisible(true);
 	};
@@ -211,16 +218,16 @@ const ProductPage = () => {
 		axios
 			.patch(
 				`http://localhost:8000/api/products/update/${selectedProduct._id}`,
-				{quantity: updateFormData.quantity} // Only update quantity
+				updateFormData
 			)
 			.then((response) => {
-				message.success('Product quantity updated successfully');
+				message.success('Product updated successfully');
 				fetchProductsFromAPI(); // Refresh productsData after update
 				setUpdateModalVisible(false);
 			})
 			.catch((error) => {
-				message.error('Failed to update product quantity');
-				console.error('Error updating product quantity:', error);
+				message.error('Failed to update product');
+				console.error('Error updating product:', error);
 			});
 	};
 
@@ -284,94 +291,68 @@ const ProductPage = () => {
 			[fieldName]: value,
 		});
 	};
+
 	const handleDiamondTypeChange = (value) => {
 		setSelectedDiamondType(value);
-		const selectedDiamond = diamondTypes.find((diamond) => diamond._id === value);
-		handleCreateFormChange('diamondType', selectedDiamond.type);
 	};
+
 	const handleMaterialChange = (value) => {
-		const selectedMaterial = materials.find((material) => material._id === value);
-		handleCreateFormChange('materialName', selectedMaterial.materialName);
 		setSelectedMaterial(value);
 	};
+
 	const handleShellChange = (value) => {
 		const selectedShell = shells.find((shell) => shell._id === value);
-		handleCreateFormChange('shellName', selectedShell.shellName);
-		setSelectedShellCategory(selectedShell.category); // Set the category of the selected shell
 		setSelectedShell(value);
+		setSelectedShellCategory(selectedShell ? selectedShell.category : '');
 	};
+
 	return (
 		<div className={styles.container}>
-			<h1 className={styles.title}>Products Page</h1>
-			<div
-				style={{
-					width: '100%',
-					display: 'flex',
-					justifyContent: 'flex-end', // Align items to the end of the container
-					marginBottom: '20px', // Optional: Add margin bottom for spacing
-				}}
-			>
-				<Button type="primary" onClick={showCreateModal}>
-					Create Product
-				</Button>
-			</div>
-
+			<Typography.Title level={2} className={styles.title}>
+				Product Management
+			</Typography.Title>
+			<Button type="primary" onClick={showCreateModal} className={styles.createButton}>
+				Create Product
+			</Button>
 			<Table
 				dataSource={productsData}
 				columns={columns}
-				rowKey="_id"
+				rowKey={(record) => record._id}
 				className={styles.table}
+				pagination={{pageSize: 8}}
 			/>
-
-			{/* Detail Modal */}
 			<Modal
 				title="Product Details"
 				visible={visible}
 				onCancel={handleCancel}
 				footer={[
-					<div style={{display: 'flex', width:'100%', justifyContent:'space-between'}}>
-						<div className={styles.actionButtons}>
-							<Button
-								type="danger"
-								onClick={() => setConfirmDeleteVisible(true)}
-								className={styles.deleteButton}
-							>
-								Delete
-							</Button>
-							<Popconfirm
-								title="Are you sure you want to delete this product?"
-								visible={confirmDeleteVisible}
-								onConfirm={handleDeleteConfirm}
-								onCancel={handleCancelDelete}
-								okText="Yes"
-								cancelText="No"
-							/>
-						</div>
-						
-						<Button key="close" onClick={handleCancel}>
-							Close
-						</Button>
-						
-					</div>,
+					<Button
+						key="delete"
+						type="danger"
+						icon={<DeleteOutlined />}
+						onClick={() => setConfirmDeleteVisible(true)}
+						style={{background: 'red', color: 'white'}} // Show confirm delete modal
+					>
+						Delete
+					</Button>,
 				]}
+				width={800}
 			>
 				{selectedProduct && (
 					<div className={styles.detailContainer}>
-						<div className={styles.detailImages}>
+						<div className={styles.imageControls}>
+							<Button onClick={prevImage}>Previous</Button>
 							<img
 								src={selectedProduct.image[currentImageIndex]}
-								alt={`Product ${currentImageIndex}`}
+								alt={selectedProduct.productName}
 								className={styles.productImage}
 							/>
-							{selectedProduct.image.length > 1 && (
-								<div className={styles.imageControls}>
-									<Button onClick={prevImage}>Previous</Button>
-									<Button onClick={nextImage}>Next</Button>
-								</div>
-							)}
+							<Button onClick={nextImage}>Next</Button>
 						</div>
-						<div className={styles.detailContent}>
-							<h2>{selectedProduct.productName}</h2>
+						<div className={styles.detailSection}>
+							<p>
+								<strong>Product Name:</strong> {selectedProduct.productName}
+							</p>
 							<p>
 								<strong>Diamond Type:</strong> {selectedProduct.diamondId.type}
 							</p>
@@ -385,44 +366,26 @@ const ProductPage = () => {
 								<strong>Material:</strong> {selectedProduct.materialId.materialName}
 							</p>
 							<p>
-								<strong>Quantity:</strong> {selectedProduct.quantity}
-							</p>
-							<p>
 								<strong>Price:</strong> ${selectedProduct.price.toFixed(2)}
 							</p>
 							<p>
 								<strong>Description:</strong> {selectedProduct.description}
 							</p>
-							<div className={styles.metadata}>
-								<p>
-									<strong>Created At:</strong> {selectedProduct.createdAt}
-								</p>
-								<p>
-									<strong>Updated At:</strong> {selectedProduct.updatedAt}
-								</p>
-								{/* Add other fields as needed */}
-							</div>
+							<p>
+								<strong>Quantity:</strong> {selectedProduct.quantity}
+							</p>
 						</div>
 					</div>
 				)}
 			</Modal>
-
-			{/* Update Modal */}
 			<Modal
 				title="Update Product"
 				visible={updateModalVisible}
-				onOk={handleUpdate}
 				onCancel={handleCancelUpdate}
-				footer={[
-					<Button key="cancel" onClick={handleCancelUpdate}>
-						Cancel
-					</Button>,
-					<Button key="update" type="primary" onClick={handleUpdate}>
-						Update
-					</Button>,
-				]}
+				onOk={handleUpdate}
+				width={800}
 			>
-				<Form>
+				<Form layout="vertical">
 					<Form.Item label="Quantity">
 						<Input
 							type="number"
@@ -432,23 +395,14 @@ const ProductPage = () => {
 					</Form.Item>
 				</Form>
 			</Modal>
-
-			{/* Create Modal */}
 			<Modal
 				title="Create Product"
 				visible={createModalVisible}
-				onOk={handleCreate}
 				onCancel={handleCancelCreate}
-				footer={[
-					<Button key="cancel" onClick={handleCancelCreate}>
-						Cancel
-					</Button>,
-					<Button key="create" type="primary" onClick={handleCreate}>
-						Create
-					</Button>,
-				]}
+				onOk={handleCreate}
+				width={800}
 			>
-				<Form>
+				<Form layout="vertical">
 					<Form.Item label="Product Name">
 						<Input
 							value={createFormData.productName}
@@ -466,8 +420,7 @@ const ProductPage = () => {
 						>
 							{diamondTypes.map((diamond) => (
 								<Option key={diamond._id} value={diamond._id}>
-									{diamond.type}-{diamond.carat}-{diamond.cut}-{diamond.color}-
-									{diamond.clarity}
+									{diamond.type}
 								</Option>
 							))}
 						</Select>
@@ -483,20 +436,19 @@ const ProductPage = () => {
 						>
 							{shells.map((shell) => (
 								<Option key={shell._id} value={shell._id}>
-									{shell.shellName}-{shell.category}
+									{shell.shellName}
 								</Option>
 							))}
 						</Select>
 					</Form.Item>
-					<Form.Item label="Category">
-						<Typography.Text>{selectedShellCategory}</Typography.Text>
-					</Form.Item>
-					<Form.Item label="Material">
+					<Form.Item label="Material Name">
 						<Select
 							showSearch
 							value={selectedMaterial}
 							onChange={handleMaterialChange}
-							placeholder="Search and select a material"
+							filterOption={(input, option) =>
+								option.children.toLowerCase().includes(input.toLowerCase())
+							}
 						>
 							{materials.map((material) => (
 								<Option key={material._id} value={material._id}>
@@ -505,6 +457,10 @@ const ProductPage = () => {
 							))}
 						</Select>
 					</Form.Item>
+					<Form.Item label="Category">
+						<Input value={selectedShellCategory} readOnly />
+					</Form.Item>
+
 					<Form.Item label="Price">
 						<Input
 							type="number"
@@ -512,20 +468,28 @@ const ProductPage = () => {
 							onChange={(e) => handleCreateFormChange('price', e.target.value)}
 						/>
 					</Form.Item>
-					<Form.Item label="Quantity">
-						<Input
-							value={createFormData.quantity}
-							onChange={(e) => handleCreateFormChange('quantity', e.target.value)}
-						/>
-					</Form.Item>
 					<Form.Item label="Description">
 						<Input.TextArea
-							rows={4}
 							value={createFormData.description}
 							onChange={(e) => handleCreateFormChange('description', e.target.value)}
 						/>
 					</Form.Item>
+					<Form.Item label="Quantity">
+						<Input
+							type="number"
+							value={createFormData.quantity}
+							onChange={(e) => handleCreateFormChange('quantity', e.target.value)}
+						/>
+					</Form.Item>
 				</Form>
+			</Modal>
+			<Modal
+				title="Confirm Deletion"
+				visible={confirmDeleteVisible}
+				onOk={handleDeleteConfirm}
+				onCancel={handleCancelDelete}
+			>
+				<p>Are you sure you want to delete this product?</p>
 			</Modal>
 		</div>
 	);

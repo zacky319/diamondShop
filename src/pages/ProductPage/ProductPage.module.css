@@ -1,145 +1,78 @@
-/* ProductPage.module.css */
-
 .container {
-  padding: 20px;
+  padding: 24px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
 }
 
 .title {
-  font-size    : 24px;
-  font-weight  : bold;
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #1890ff;
 }
 
-.buttonRow {
-  margin-bottom: 20px;
+.createButton {
+  display: block;
+  margin: 0 auto 24px;
+  background-color: #1890ff;
+  color: white;
 }
 
 .table {
-  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.detailContainer {
-  display    : flex;
-  align-items: flex-start;
+.productName {
+  display: flex;
+  align-items: center;
 }
 
-.detailLeft {
-  flex   : 1;
-  padding: 20px;
-}
-
-.detailRight {
-  flex   : 1;
-  padding: 20px;
-}
-
-.productImage {
-  width        : 150px;
-  height       : auto;
-  margin-bottom: 10px;
-}
-
-.formItem {
-  display       : flex;
-  flex-direction: column;
-  margin-bottom : 10px;
-}
-
-.formItem .label {
-  color        : #000;
-  font-weight  : bold;
-  margin-bottom: 5px;
-}
-
-.modalContent {
-  max-width: 600px;
-}
-
-.modalFooter {
-  display        : flex;
-  justify-content: flex-end;
-  padding-top    : 20px;
-}
-
-.modalFooter .ant-btn {
+.productNameText {
   margin-left: 8px;
 }
 
-/* Adjust specific modal styles */
-.ant-modal-title {
-  font-size  : 18px;
-  font-weight: bold;
+.productImageThumbnail {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-.ant-modal-footer {
-  border-top: none;
-  padding   : 10px 24px;
+.detailContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Button styles */
-.ant-btn {
-  border-radius: 5px;
-}
-
-.ant-btn-primary {
-  background-color: #1890ff;
-  border-color    : #1890ff;
-}
-
-.ant-btn-primary:hover,
-.ant-btn-primary:focus {
-  background-color: #40a9ff;
-  border-color    : #40a9ff;
-}
-
-.ant-btn-link {
-  color: #1890ff;
-}
-
-.ant-btn-link:hover,
-.ant-btn-link:focus {
-  color: #40a9ff;
-}
-
-/* Form styles */
-.ant-form-item-label {
-  font-weight: bold;
-}
-
-.ant-input-number {
+.imageControls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
 }
 
-.ant-select {
+.productImage {
+  max-width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+}
+
+.detailSection {
+  margin-top: 16px;
   width: 100%;
 }
 
-.ant-select-selection-search {
-  border-radius: 5px;
+.detailSection p {
+  margin: 4px 0;
 }
 
-.ant-select-arrow {
-  color: #1890ff;
+.actionColumn {
+  display: flex;
+  justify-content: space-around;
 }
-
-.ant-input,
-.ant-select-selection-search-input {
-  border-radius: 5px;
-}
-
-.ant-input:hover,
-.ant-select-selection-search-input:hover,
-.ant-input:focus,
-.ant-select-selection-search-input:focus {
-  border-color: #1890ff;
-}
-
-.deleteButton :hover,
-.actionButtons :hover {
-  background-color: red;
-  color           : antiquewhite;
-}
-
 .actionButtons{
-  
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
 }
